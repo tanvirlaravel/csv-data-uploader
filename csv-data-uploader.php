@@ -110,3 +110,11 @@ function cdu_create_table(){
   require_once(ABSPATH . "/wp-admin/includes/upgrade.php");
   dbDelta($sql_command);
 }
+
+// Add scripts file 
+add_action( "wp_enqueue_scripts", "cdu_add_scripts_file" );
+
+function cdu_add_scripts_file(){
+    wp_enqueue_script("cdu-script", plugin_dir_url(__FILE__) . "assets/script.js", array("jquery"));
+
+}
