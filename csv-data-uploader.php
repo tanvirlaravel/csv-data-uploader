@@ -77,3 +77,36 @@ function cdu_display_uploader_form(){
     
     return  $template;
 }
+
+/*
+The register_activation_hook() function in WordPress is used to register a callback function that will be executed when the plugin is activated. This is useful for performing tasks that need to be done only once when the plugin is first activated, such as creating default settings, creating custom tables, or importing data.
+
+Parameters:
+
+$file: The path to the plugin file.
+$function: The callback function that will be executed when the plugin is activated.
+*/
+// DB table on plugin activation
+register_activation_hook( __FILE__, 'cdu_create_table' );
+
+function cdu_create_table(){
+    global $wpdb;
+    $table_prefix = $wpdb->prefix;
+    $table_name = $table_prefix . "students_data";
+    $table_collate = $wpdb->get_charset_collate();
+
+    $sql_command = "
+    CREATE TABLE `". $table_name ."` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `age` int(5) DEFAULT NULL,
+  `phone` varchar(30) DEFAULT NULL,
+  `photo` varchar(120) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) " . $table_collate ."
+    ";
+
+  require_once(ABSPATH . "/wp-admin/includes/upgrade.php");
+  dbDelta($sql_command);
+}
