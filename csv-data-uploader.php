@@ -116,5 +116,8 @@ add_action( "wp_enqueue_scripts", "cdu_add_scripts_file" );
 
 function cdu_add_scripts_file(){
     wp_enqueue_script("cdu-script", plugin_dir_url(__FILE__) . "assets/script.js", array("jquery"));
+    wp_localize_script("cdu-script", "cdu_object", array(
+        "ajax_url" => admin_url("admin-ajax.php"),
+    ));
 
 }
