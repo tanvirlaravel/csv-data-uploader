@@ -119,5 +119,20 @@ function cdu_add_scripts_file(){
     wp_localize_script("cdu-script", "cdu_object", array(
         "ajax_url" => admin_url("admin-ajax.php"),
     ));
+}
 
+// Capture Ajax Request 
+add_action("wp_ajax_cdu_submit_form_data", "cdu_ajax_handler");   // when user is logged in
+add_action("wp_ajax_nopriv_cdu_submit_form_data", "cdu_ajax_handler"); // when use is not logged in
+
+function cdu_ajax_handler(){
+   echo json_encode( array(
+    "status"  => 1,
+    "message" => "Hello form CSV Data Uploader"
+  ) );
+
+  // $data = $_POST['data'];
+  //   wp_send_json_success($data);
+
+  exit;
 }
