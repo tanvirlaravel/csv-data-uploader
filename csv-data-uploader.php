@@ -126,10 +126,49 @@ add_action("wp_ajax_cdu_submit_form_data", "cdu_ajax_handler");   // when user i
 add_action("wp_ajax_nopriv_cdu_submit_form_data", "cdu_ajax_handler"); // when use is not logged in
 
 function cdu_ajax_handler(){
-   echo json_encode( array(
+  // echo admin_url("admin-ajax.php"); die();
+ if($_FILES['csv_data_file']){
+  global $wpdb;
+  $table_name = $wpdb->prefix . "students_data";
+
+    $csvFile = $_FILES['csv_data_file']['tmp_name'];
+    $handle = fopen($csvFile, 'r');
+
+    
+
+    if( $handle ){
+      $row = 0;
+        while( ($data = fgetcsv($handle, 1000)) !== false ){
+          if($row == 0){
+            $row++;
+            continue;
+          }
+          // Insert data 
+          $wpdb->insert($table_name, array(
+            "name"    => $data[1],
+            "email"    => $data[2],
+            "age"      => $data[3],
+            "phone"    => $data[4],
+            "photo"    => $data[5],
+          ));
+        }
+
+        fclose($handle);
+
+        echo json_encode([
+          "status"  => 1,
+          "message" => "Data uploaded succefully in database"
+        ]);
+    }
+
+ }else{
+
+  echo json_encode( array(
     "status"  => 1,
     "message" => "Hello form CSV Data Uploader"
   ) );
+
+ }
 
   // $data = $_POST['data'];
   //   wp_send_json_success($data);

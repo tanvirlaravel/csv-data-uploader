@@ -9,6 +9,8 @@ Prevent default form submission: Avoids the browser navigating to a new page, wh
 Trigger custom JavaScript functions: Execute specific JavaScript code when the form is submitted, allowing for more complex interactions and dynamic updates. 
 -->
 
+<p id="show_upload_message"></p>
+
 <form action="javascript:void(0)" id="frm-cvs-upload" enctype="multipart/form-data">
     <p>
         <label for="csv_data_file">Upload CSV File</label>

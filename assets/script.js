@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
     event.preventDefault();
 
     var formData = new FormData(this);
-    console.log("formData", formData);
+    console.log('formData', formData);
 
     jQuery.ajax({
       url: cdu_object.ajax_url,
@@ -16,9 +16,7 @@ jQuery(document).ready(function () {
       enctype: 'multipart/form-data',
       // url: `${window.location.origin}/wp-admin/admin-ajax.php`,
       // data: formData,
-     
-     
-      
+
       // data: {
       //   action: 'cdu_submit_form_data', // the action to fire in the server
       //   data: formData, // any JS object
@@ -27,7 +25,11 @@ jQuery(document).ready(function () {
       //   console.log(JSON.parse(response.responseText).data);
       // },
       success: function (response) {
-        console.log(response);
+        if (response.status) {
+          jQuery('#show_upload_message').text(response.message).css({
+            color: 'green',
+          });
+        }
       },
     });
   });
@@ -42,7 +44,7 @@ jQuery(document).ready(function () {
 //   enctype: 'multipart/form-data',
 //   url: 'include/ajax.php',
 //   success: function (response) {
-//       $("#subform").html(response).delay(4000).hide(1); 
+//       $("#subform").html(response).delay(4000).hide(1);
 //   }
 // });
 
